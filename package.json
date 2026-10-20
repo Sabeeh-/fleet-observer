@@ -1,0 +1,15 @@
+{
+  "name": "fleet-observer",
+  "private": true,
+  "scripts": {
+    "setup": "npm install && npm --prefix web install && npm --prefix tests/acceptance install && npx --prefix tests/acceptance playwright install chromium && dotnet restore",
+    "dev": "concurrently -k -n api,web -c blue,green \"dotnet run --project api/Api.csproj --launch-profile http\" \"npm --prefix web run dev\"",
+    "check": "npm run check:api && npm run check:web && npm run check:acceptance",
+    "check:api": "dotnet test FleetObserver.slnx",
+    "check:web": "npm --prefix web run lint && npm --prefix web run build",
+    "check:acceptance": "npm --prefix tests/acceptance test"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6"
+  }
+}
